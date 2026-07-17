@@ -1,5 +1,6 @@
 /* ==========================================================================
    Faith African Hair Braiding — Premium Mobile-First Stylesheet
+   Refactored hero: mobile-first image visibility, no text/photo overlap
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -73,6 +74,7 @@
 html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    scroll-padding-top: var(--header-height);
 }
 
 body {
@@ -82,6 +84,10 @@ body {
     color: var(--color-text);
     background-color: var(--color-cream);
     overflow-x: hidden;
+}
+
+body.nav-open {
+    overflow: hidden;
 }
 
 img {
@@ -191,7 +197,7 @@ cite {
     left: var(--space-md);
     z-index: 9999;
     padding: var(--space-sm) var(--space-md);
-    background: var(--color-brown-dark);
+    background-color: var(--color-brown-dark);
     color: var(--color-cream);
     border-radius: var(--radius-sm);
     font-weight: 600;
@@ -201,7 +207,6 @@ cite {
     top: var(--space-md);
 }
 
-/* Focus visible */
 :focus-visible {
     outline: 2px solid var(--color-bronze);
     outline-offset: 2px;
@@ -231,6 +236,10 @@ cite {
     min-height: 48px;
 }
 
+.btn:hover {
+    transform: translateY(-1px);
+}
+
 .btn-primary {
     background-color: var(--color-bronze);
     color: var(--color-white);
@@ -241,7 +250,6 @@ cite {
     background-color: var(--color-bronze-dark);
     border-color: var(--color-bronze-dark);
     box-shadow: var(--shadow-md);
-    transform: translateY(-1px);
 }
 
 .btn-secondary {
@@ -253,7 +261,6 @@ cite {
 .btn-secondary:hover {
     background-color: var(--color-brown-dark);
     color: var(--color-cream);
-    transform: translateY(-1px);
 }
 
 .btn-light {
@@ -279,7 +286,6 @@ cite {
 .btn-header:hover {
     background-color: var(--color-bronze-dark);
     border-color: var(--color-bronze-dark);
-    transform: translateY(-1px);
 }
 
 .btn-footer-primary {
@@ -292,7 +298,6 @@ cite {
     background-color: var(--color-bronze-light);
     border-color: var(--color-bronze-light);
     color: var(--color-brown-dark);
-    transform: translateY(-2px);
     box-shadow: var(--shadow-md);
 }
 
@@ -306,7 +311,6 @@ cite {
     background-color: var(--color-cream);
     color: var(--color-brown-dark);
     border-color: var(--color-cream);
-    transform: translateY(-2px);
 }
 
 /* --------------------------------------------------------------------------
@@ -319,7 +323,7 @@ cite {
     right: 0;
     z-index: 1000;
     height: var(--header-height);
-    background-color: rgba(250, 246, 240, 0.92);
+    background-color: rgba(250, 246, 240, 0.94);
     border-bottom: 1px solid transparent;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -463,15 +467,18 @@ cite {
         opacity var(--transition);
 }
 
-.menu-toggle.is-active span:nth-child(1) {
+.menu-toggle.is-active span:nth-child(1),
+body.nav-open .menu-toggle span:nth-child(1) {
     transform: translateY(7px) rotate(45deg);
 }
 
-.menu-toggle.is-active span:nth-child(2) {
+.menu-toggle.is-active span:nth-child(2),
+body.nav-open .menu-toggle span:nth-child(2) {
     opacity: 0;
 }
 
-.menu-toggle.is-active span:nth-child(3) {
+.menu-toggle.is-active span:nth-child(3),
+body.nav-open .menu-toggle span:nth-child(3) {
     transform: translateY(-7px) rotate(-45deg);
 }
 
@@ -499,7 +506,8 @@ cite {
             visibility var(--transition);
     }
 
-    .main-nav.is-open {
+    .main-nav.is-open,
+    body.nav-open .main-nav {
         display: flex;
         transform: translateX(0);
         opacity: 1;
@@ -528,43 +536,52 @@ cite {
 }
 
 /* --------------------------------------------------------------------------
-   Hero
+   Hero - Mobile First, Image Safe, No Overlap
    -------------------------------------------------------------------------- */
 .hero-section {
     position: relative;
     display: flex;
-    align-items: flex-end;
-    min-height: clamp(520px, 88vh, 780px);
+    flex-direction: column;
+    min-height: auto;
     padding-top: var(--header-height);
+    background-color: var(--color-brown-dark);
     overflow: hidden;
 }
 
+/* Image is normal-flow on mobile so text cannot overlap it */
 .hero-media {
-    position: absolute;
-    inset: 0;
+    position: relative;
     z-index: 0;
+    width: 100%;
+    height: clamp(380px, 68vh, 620px);
+    overflow: hidden;
+    background-color: var(--color-black);
 }
 
 .hero-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 30%;
+
+    /*
+       Your hero image places the model on the right.
+       This keeps the face visible on mobile without forcing text over it.
+    */
+    object-position: 68% center;
 }
 
 .hero-overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background-color: var(--color-overlay);
+    display: none;
 }
 
+/* Content below image on mobile */
 .hero-content {
     position: relative;
     z-index: 2;
     width: 100%;
     padding-block: var(--space-2xl) var(--space-3xl);
     color: var(--color-text-light);
+    background-color: var(--color-brown-dark);
 }
 
 .hero-content .section-kicker {
@@ -572,53 +589,66 @@ cite {
 }
 
 .hero-content h1 {
-    color: var(--color-white);
-    max-width: 14ch;
+    max-width: 13ch;
     margin-bottom: var(--space-md);
+    color: var(--color-white);
+    font-size: clamp(2.15rem, 11vw, 4.75rem);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
 }
 
 .hero-content > p {
-    max-width: 540px;
-    font-size: 1.05rem;
-    color: rgba(245, 237, 228, 0.92);
+    max-width: 580px;
     margin-bottom: var(--space-xl);
+    color: rgba(245, 237, 228, 0.9);
+    font-size: 1rem;
+    line-height: 1.75;
 }
 
 .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr;
     gap: var(--space-sm);
     margin-bottom: var(--space-xl);
+}
+
+.hero-actions .btn {
+    width: 100%;
+    min-height: 52px;
 }
 
 .hero-trust {
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--space-sm);
-    max-width: 480px;
+    width: 100%;
+    max-width: 560px;
 }
 
+/* Supports both your current HTML .hero-trust > div and alternate .hero-trust-item */
+.hero-trust > div,
 .hero-trust-item {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 3px;
     padding: var(--space-sm) var(--space-md);
-    background-color: rgba(26, 16, 10, 0.45);
-    border: 1px solid rgba(212, 184, 150, 0.25);
+    background-color: rgba(26, 16, 10, 0.48);
+    border: 1px solid rgba(212, 184, 150, 0.24);
     border-radius: var(--radius-md);
-    backdrop-filter: blur(4px);
 }
 
+.hero-trust > div strong,
 .hero-trust-item strong {
+    color: var(--color-bronze-light);
     font-size: 0.875rem;
     font-weight: 700;
-    color: var(--color-bronze-light);
     letter-spacing: 0.02em;
 }
 
+.hero-trust > div span,
 .hero-trust-item span {
+    color: rgba(245, 237, 228, 0.84);
     font-size: 0.8125rem;
-    color: rgba(245, 237, 228, 0.85);
 }
 
 /* --------------------------------------------------------------------------
@@ -677,12 +707,14 @@ cite {
     color: var(--color-text);
     transition:
         border-color var(--transition),
-        box-shadow var(--transition);
+        box-shadow var(--transition),
+        transform var(--transition);
 }
 
 .highlight-item:hover {
     border-color: var(--color-bronze-light);
     box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
 }
 
 .highlight-item i {
@@ -736,13 +768,18 @@ cite {
     aspect-ratio: 3 / 2;
 }
 
+/* Supports both direct images and wrapped images */
+.service-card > img,
 .service-card-media img {
     width: 100%;
     height: 100%;
+    min-height: 240px;
     object-fit: cover;
+    aspect-ratio: 3 / 2;
     transition: transform 0.4s ease;
 }
 
+.service-card:hover > img,
 .service-card:hover .service-card-media img {
     transform: scale(1.05);
 }
@@ -884,7 +921,8 @@ cite {
     box-shadow: var(--shadow-md);
 }
 
-.why-card-icon {
+.why-card-icon,
+.why-card > i {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -899,10 +937,12 @@ cite {
     transition:
         transform var(--transition),
         background-color var(--transition),
-        border-color var(--transition);
+        border-color var(--transition),
+        color var(--transition);
 }
 
-.why-card:hover .why-card-icon {
+.why-card:hover .why-card-icon,
+.why-card:hover > i {
     transform: translateY(-3px);
     background-color: var(--color-brown-dark);
     border-color: var(--color-brown-dark);
@@ -955,7 +995,8 @@ cite {
     font-size: 0.875rem;
 }
 
-.testimonial-card blockquote p {
+.testimonial-card blockquote p,
+.testimonial-card > p {
     font-family: var(--font-heading);
     font-size: 1.0625rem;
     font-style: italic;
@@ -964,8 +1005,10 @@ cite {
     margin-bottom: var(--space-lg);
 }
 
-.testimonial-card cite {
+.testimonial-card cite,
+.testimonial-card h3 {
     display: block;
+    font-family: var(--font-body);
     font-size: 0.8125rem;
     font-weight: 600;
     letter-spacing: 0.06em;
@@ -1022,7 +1065,8 @@ cite {
     box-shadow: var(--shadow-sm);
 }
 
-.booking-option-icon {
+.booking-option-icon,
+.booking-option > i {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1038,27 +1082,27 @@ cite {
         color var(--transition);
 }
 
-.booking-option:hover .booking-option-icon {
+.booking-option:hover .booking-option-icon,
+.booking-option:hover > i {
     background-color: var(--color-brown-dark);
     color: var(--color-bronze-light);
 }
 
-.booking-option-text {
+.booking-option-text,
+.booking-option span {
     display: flex;
     flex-direction: column;
     gap: 2px;
     min-width: 0;
-}
-
-.booking-option-text strong {
-    font-size: 0.9375rem;
-    color: var(--color-brown-dark);
-}
-
-.booking-option-text {
     font-size: 0.875rem;
     color: var(--color-text-muted);
     word-break: break-word;
+}
+
+.booking-option-text strong,
+.booking-option span strong {
+    font-size: 0.9375rem;
+    color: var(--color-brown-dark);
 }
 
 .booking-form {
@@ -1179,7 +1223,8 @@ cite {
     box-shadow: var(--shadow-md);
 }
 
-.contact-card-icon {
+.contact-card-icon,
+.contact-card > i {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1196,7 +1241,8 @@ cite {
         border-color var(--transition);
 }
 
-.contact-card:hover .contact-card-icon {
+.contact-card:hover .contact-card-icon,
+.contact-card:hover > i {
     background-color: var(--color-brown-dark);
     border-color: var(--color-brown-dark);
     color: var(--color-bronze-light);
@@ -1211,7 +1257,8 @@ cite {
     color: var(--color-text-muted);
 }
 
-.contact-card-link {
+.contact-card-link,
+.contact-card > a {
     font-size: 0.9375rem;
     font-weight: 600;
     color: var(--color-brown-dark);
@@ -1219,7 +1266,8 @@ cite {
     transition: color var(--transition-fast);
 }
 
-.contact-card:hover .contact-card-link {
+.contact-card:hover .contact-card-link,
+.contact-card:hover > a {
     color: var(--color-bronze-dark);
 }
 
@@ -1355,19 +1403,22 @@ cite {
     border-radius: var(--radius-md);
 }
 
-.footer-logo-text {
+.footer-logo-text,
+.footer-logo span {
     display: flex;
     flex-direction: column;
     line-height: 1.15;
 }
 
-.footer-logo-text strong {
+.footer-logo-text strong,
+.footer-logo span strong {
     font-family: var(--font-heading);
     font-size: 1rem;
     color: var(--color-cream);
 }
 
-.footer-logo-text small {
+.footer-logo-text small,
+.footer-logo span small {
     font-size: 0.6875rem;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -1465,13 +1516,15 @@ cite {
     border-bottom: 1px solid rgba(245, 237, 228, 0.1);
 }
 
-.footer-hours-item {
+.footer-hours-item,
+.footer-hours-strip > div {
     display: flex;
     flex-direction: column;
     gap: 2px;
 }
 
-.footer-hours-item span {
+.footer-hours-item span,
+.footer-hours-strip > div span {
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.08em;
@@ -1479,7 +1532,8 @@ cite {
     color: rgba(245, 237, 228, 0.55);
 }
 
-.footer-hours-item strong {
+.footer-hours-item strong,
+.footer-hours-strip > div strong {
     font-size: 0.9375rem;
     color: var(--color-cream);
     font-weight: 600;
@@ -1541,7 +1595,8 @@ cite {
     font-size: 1.25rem;
     transition:
         background-color var(--transition),
-        transform var(--transition);
+        transform var(--transition),
+        color var(--transition);
 }
 
 .lightbox-close:hover {
@@ -1587,15 +1642,20 @@ cite {
 }
 
 /* --------------------------------------------------------------------------
-   Responsive Breakpoints (mobile-first)
+   Responsive Breakpoints - Mobile First
    -------------------------------------------------------------------------- */
 
 /* Small tablets — 480px+ */
 @media (min-width: 480px) {
+    .hero-media {
+        height: clamp(440px, 70vh, 680px);
+    }
+
     .hero-trust {
         grid-template-columns: repeat(3, 1fr);
     }
 
+    .hero-trust > div,
     .hero-trust-item {
         padding: var(--space-sm);
     }
@@ -1609,6 +1669,20 @@ cite {
 @media (min-width: 640px) {
     :root {
         --container-padding: 1.5rem;
+    }
+
+    .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .hero-actions .btn {
+        width: auto;
+        min-width: 170px;
+    }
+
+    .hero-content > p {
+        font-size: 1.05rem;
     }
 
     .services-grid {
@@ -1661,6 +1735,14 @@ cite {
         padding-block: var(--space-4xl);
     }
 
+    .hero-media {
+        height: clamp(500px, 72vh, 720px);
+    }
+
+    .hero-content h1 {
+        max-width: 14ch;
+    }
+
     .about-grid {
         grid-template-columns: 1fr 1fr;
         gap: var(--space-3xl);
@@ -1710,15 +1792,46 @@ cite {
     }
 
     .hero-section {
+        display: flex;
         align-items: center;
+        min-height: calc(100vh - var(--header-height));
+        padding-top: var(--header-height);
+        background-color: var(--color-black);
+    }
+
+    .hero-media {
+        position: absolute;
+        inset: var(--header-height) 0 0 0;
+        width: 100%;
+        height: auto;
+    }
+
+    .hero-image {
+        object-position: right center;
+    }
+
+    .hero-overlay {
+        display: block;
+        position: absolute;
+        inset: var(--header-height) 0 0 0;
+        z-index: 1;
+        background-color: rgba(26, 16, 10, 0.56);
     }
 
     .hero-content {
-        padding-block: var(--space-3xl);
+        background-color: transparent;
+        padding-block: var(--space-4xl);
     }
 
+    .hero-content h1,
+    .hero-content > p,
+    .hero-actions,
     .hero-trust {
-        max-width: 560px;
+        max-width: 620px;
+    }
+
+    .hero-content > p {
+        font-size: 1.1rem;
     }
 
     .services-grid {
@@ -1750,8 +1863,19 @@ cite {
 
 /* Large desktop — 1200px+ */
 @media (min-width: 1200px) {
+    .hero-content h1,
+    .hero-content > p,
+    .hero-actions,
+    .hero-trust {
+        max-width: 660px;
+    }
+
     .hero-content > p {
         font-size: 1.125rem;
+    }
+
+    .hero-image {
+        object-position: right center;
     }
 }
 
@@ -1777,11 +1901,13 @@ cite {
     .testimonial-card:hover,
     .contact-card:hover,
     .booking-option:hover,
+    .highlight-item:hover,
     .btn:hover,
     .floating-whatsapp:hover {
         transform: none;
     }
 
+    .service-card:hover > img,
     .service-card:hover .service-card-media img,
     .gallery-item:hover img {
         transform: none;
