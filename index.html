@@ -46,12 +46,14 @@
 
 <body>
 
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
     <!-- Header -->
     <header class="site-header" id="siteHeader">
         <div class="container header-wrapper">
 
             <a href="#home" class="brand" aria-label="Faith African Hair Braiding Home">
-                <span class="brand-mark">F</span>
+                <span class="brand-mark" aria-hidden="true">F</span>
                 <span class="brand-text">
                     <strong>Faith African</strong>
                     <small>Hair Braiding</small>
@@ -69,11 +71,11 @@
                 <a href="#contact" class="nav-link">Contact</a>
             </nav>
 
-            <a href="https://wa.me/14132443858" class="header-cta" target="_blank" rel="noopener">
+            <a href="https://wa.me/14132443858" class="header-cta btn btn-header" target="_blank" rel="noopener">
                 Book Now
             </a>
 
-            <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false">
+            <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mainNav">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -82,7 +84,7 @@
         </div>
     </header>
 
-    <main>
+    <main id="main-content">
 
         <!-- Hero Section -->
         <section class="hero-section" id="home" aria-label="Faith African Hair Braiding hero section">
@@ -91,6 +93,9 @@
                     src="assets/images/hero-braids.jpg"
                     alt="Close-up of beautifully styled neat African braids"
                     class="hero-image"
+                    width="1920"
+                    height="1080"
+                    fetchpriority="high"
                 />
             </div>
 
@@ -109,19 +114,19 @@
 
                 <div class="hero-actions">
                     <a href="#booking" class="btn btn-primary">Book Appointment</a>
-                    <a href="#services" class="btn btn-secondary">View Services</a>
+                    <a href="#services" class="btn btn-secondary btn-light">View Services</a>
                 </div>
 
                 <div class="hero-trust" aria-label="Service highlights">
-                    <div>
+                    <div class="hero-trust-item">
                         <strong>Same-Day</strong>
                         <span>Booking Available</span>
                     </div>
-                    <div>
+                    <div class="hero-trust-item">
                         <strong>Home Service</strong>
                         <span>Available</span>
                     </div>
-                    <div>
+                    <div class="hero-trust-item">
                         <strong>Kids Friendly</strong>
                         <span>Gentle Styling</span>
                     </div>
@@ -130,23 +135,25 @@
         </section>
 
         <!-- About Section -->
-        <section class="section about-section" id="about">
+        <section class="section about-section" id="about" aria-labelledby="about-heading">
             <div class="container about-grid">
 
-                <div class="about-image-wrap">
+                <figure class="about-image-wrap">
                     <img
                         src="assets/images/about-braiding.jpg"
                         alt="Professional African hair braiding service"
                         class="about-image"
                         loading="lazy"
                         decoding="async"
+                        width="800"
+                        height="600"
                     />
-                </div>
+                </figure>
 
                 <div class="about-content">
                     <span class="section-kicker">About Us</span>
 
-                    <h2>Professional Braiding with a Clean, Comfortable Experience</h2>
+                    <h2 id="about-heading">Professional Braiding with a Clean, Comfortable Experience</h2>
 
                     <p>
                         At Faith African Hair Braiding, we provide professional, neat, and long-lasting
@@ -161,22 +168,22 @@
                         careful attention and quality service.
                     </p>
 
-                    <div class="about-highlights">
-                        <div class="highlight-item">
+                    <ul class="about-highlights">
+                        <li class="highlight-item">
                             <i class="fa-solid fa-check" aria-hidden="true"></i>
                             <span>Salon and home appointments</span>
-                        </div>
+                        </li>
 
-                        <div class="highlight-item">
+                        <li class="highlight-item">
                             <i class="fa-solid fa-check" aria-hidden="true"></i>
                             <span>Experienced stylist</span>
-                        </div>
+                        </li>
 
-                        <div class="highlight-item">
+                        <li class="highlight-item">
                             <i class="fa-solid fa-check" aria-hidden="true"></i>
                             <span>Protective hairstyles</span>
-                        </div>
-                    </div>
+                        </li>
+                    </ul>
 
                     <a href="#booking" class="btn btn-primary">Request Appointment</a>
                 </div>
@@ -185,22 +192,24 @@
         </section>
 
         <!-- Services Section -->
-        <section class="section services-section" id="services">
+        <section class="section services-section" id="services" aria-labelledby="services-heading">
             <div class="container">
 
-                <div class="section-header">
+                <header class="section-header">
                     <span class="section-kicker">Our Services</span>
-                    <h2>Beautiful Styles for Every Occasion</h2>
+                    <h2 id="services-heading">Beautiful Styles for Every Occasion</h2>
                     <p>
                         Choose from our professional braiding and hair care services.
                         Prices can be requested directly through WhatsApp or the booking form.
                     </p>
-                </div>
+                </header>
 
                 <div class="services-grid">
 
                     <article class="service-card">
-                        <img src="assets/images/service-box-braids.jpg" alt="Box braids hairstyle" loading="lazy" decoding="async" />
+                        <div class="service-card-media">
+                            <img src="assets/images/service-box-braids.jpg" alt="Box braids hairstyle" loading="lazy" decoding="async" width="600" height="400" />
+                        </div>
                         <div class="service-card-body">
                             <h3>Box Braids</h3>
                             <p>Classic, stylish, and protective braids for a clean long-lasting look.</p>
@@ -209,7 +218,9 @@
                     </article>
 
                     <article class="service-card">
-                        <img src="assets/images/service-knotless-braids.jpg" alt="Knotless braids hairstyle" loading="lazy" decoding="async" />
+                        <div class="service-card-media">
+                            <img src="assets/images/service-knotless-braids.jpg" alt="Knotless braids hairstyle" loading="lazy" decoding="async" width="600" height="400" />
+                        </div>
                         <div class="service-card-body">
                             <h3>Knotless Braids</h3>
                             <p>Lightweight, natural-looking braids with less tension on the scalp.</p>
@@ -218,7 +229,9 @@
                     </article>
 
                     <article class="service-card">
-                        <img src="assets/images/service-cornrows.jpg" alt="Cornrows hairstyle" loading="lazy" decoding="async" />
+                        <div class="service-card-media">
+                            <img src="assets/images/service-cornrows.jpg" alt="Cornrows hairstyle" loading="lazy" decoding="async" width="600" height="400" />
+                        </div>
                         <div class="service-card-body">
                             <h3>Cornrows</h3>
                             <p>Clean, neat, and detailed cornrow styles for women, kids, and men.</p>
@@ -227,7 +240,9 @@
                     </article>
 
                     <article class="service-card">
-                        <img src="assets/images/service-stitch-braids.jpg" alt="Stitch braids hairstyle" loading="lazy" decoding="async" />
+                        <div class="service-card-media">
+                            <img src="assets/images/service-stitch-braids.jpg" alt="Stitch braids hairstyle" loading="lazy" decoding="async" width="600" height="400" />
+                        </div>
                         <div class="service-card-body">
                             <h3>Stitch Braids</h3>
                             <p>Sharp and modern stitch braid designs with a polished finish.</p>
@@ -236,7 +251,9 @@
                     </article>
 
                     <article class="service-card">
-                        <img src="assets/images/service-passion-twists.jpg" alt="Passion twists hairstyle" loading="lazy" decoding="async" />
+                        <div class="service-card-media">
+                            <img src="assets/images/service-passion-twists.jpg" alt="Passion twists hairstyle" loading="lazy" decoding="async" width="600" height="400" />
+                        </div>
                         <div class="service-card-body">
                             <h3>Passion Twists</h3>
                             <p>Soft, elegant, and natural-looking twists for a beautiful protective style.</p>
@@ -245,7 +262,9 @@
                     </article>
 
                     <article class="service-card">
-                        <img src="assets/images/service-goddess-braids.jpg" alt="Goddess braids hairstyle" loading="lazy" decoding="async" />
+                        <div class="service-card-media">
+                            <img src="assets/images/service-goddess-braids.jpg" alt="Goddess braids hairstyle" loading="lazy" decoding="async" width="600" height="400" />
+                        </div>
                         <div class="service-card-body">
                             <h3>Goddess Braids</h3>
                             <p>Elegant braids with a soft, feminine finish for a premium look.</p>
@@ -254,7 +273,9 @@
                     </article>
 
                     <article class="service-card">
-                        <img src="assets/images/service-kids-braids.jpg" alt="Kids braids hairstyle" loading="lazy" decoding="async" />
+                        <div class="service-card-media">
+                            <img src="assets/images/service-kids-braids.jpg" alt="Kids braids hairstyle" loading="lazy" decoding="async" width="600" height="400" />
+                        </div>
                         <div class="service-card-body">
                             <h3>Kids Braids</h3>
                             <p>Gentle, neat, and age-appropriate styles for children.</p>
@@ -263,7 +284,9 @@
                     </article>
 
                     <article class="service-card">
-                        <img src="assets/images/service-mens-cornrows.jpg" alt="Men's cornrows hairstyle" loading="lazy" decoding="async" />
+                        <div class="service-card-media">
+                            <img src="assets/images/service-mens-cornrows.jpg" alt="Men's cornrows hairstyle" loading="lazy" decoding="async" width="600" height="400" />
+                        </div>
                         <div class="service-card-body">
                             <h3>Men’s Cornrows</h3>
                             <p>Clean, masculine, and detailed cornrow styles for men.</p>
@@ -272,7 +295,9 @@
                     </article>
 
                     <article class="service-card">
-                        <img src="assets/images/service-crochet-braids.jpg" alt="Crochet braids hairstyle" loading="lazy" decoding="async" />
+                        <div class="service-card-media">
+                            <img src="assets/images/service-crochet-braids.jpg" alt="Crochet braids hairstyle" loading="lazy" decoding="async" width="600" height="400" />
+                        </div>
                         <div class="service-card-body">
                             <h3>Crochet Braids</h3>
                             <p>Fast, stylish, and versatile crochet braid installation.</p>
@@ -281,7 +306,9 @@
                     </article>
 
                     <article class="service-card">
-                        <img src="assets/images/service-wig-installation.jpg" alt="Wig installation service" loading="lazy" decoding="async" />
+                        <div class="service-card-media">
+                            <img src="assets/images/service-wig-installation.jpg" alt="Wig installation service" loading="lazy" decoding="async" width="600" height="400" />
+                        </div>
                         <div class="service-card-body">
                             <h3>Wig Installation</h3>
                             <p>Clean and secure wig installation for a natural-looking finish.</p>
@@ -290,7 +317,9 @@
                     </article>
 
                     <article class="service-card">
-                        <img src="assets/images/service-hair-treatment.jpg" alt="Hair wash and treatment service" loading="lazy" decoding="async" />
+                        <div class="service-card-media">
+                            <img src="assets/images/service-hair-treatment.jpg" alt="Hair wash and treatment service" loading="lazy" decoding="async" width="600" height="400" />
+                        </div>
                         <div class="service-card-body">
                             <h3>Hair Wash / Treatment</h3>
                             <p>Hair preparation, washing, and treatment support before styling.</p>
@@ -303,49 +332,57 @@
         </section>
 
         <!-- Gallery Section -->
-        <section class="section gallery-section" id="gallery">
+        <section class="section gallery-section" id="gallery" aria-labelledby="gallery-heading">
             <div class="container">
 
-                <div class="section-header">
+                <header class="section-header">
                     <span class="section-kicker">Gallery</span>
-                    <h2>Style Inspiration</h2>
+                    <h2 id="gallery-heading">Style Inspiration</h2>
                     <p>
                         Explore sample hairstyles. These images can be replaced later with real client work.
                     </p>
-                </div>
+                </header>
 
                 <div class="gallery-grid">
 
                     <button class="gallery-item" type="button" data-image="assets/images/gallery-box-braids.jpg" aria-label="Preview box braids gallery image">
-                        <img src="assets/images/gallery-box-braids.jpg" alt="Box braids gallery style" loading="lazy" decoding="async" />
+                        <img src="assets/images/gallery-box-braids.jpg" alt="Box braids gallery style" loading="lazy" decoding="async" width="600" height="600" />
+                        <span class="gallery-item-overlay" aria-hidden="true"><i class="fa-solid fa-expand"></i></span>
                     </button>
 
                     <button class="gallery-item" type="button" data-image="assets/images/gallery-knotless-braids.jpg" aria-label="Preview knotless braids gallery image">
-                        <img src="assets/images/gallery-knotless-braids.jpg" alt="Knotless braids gallery style" loading="lazy" decoding="async" />
+                        <img src="assets/images/gallery-knotless-braids.jpg" alt="Knotless braids gallery style" loading="lazy" decoding="async" width="600" height="600" />
+                        <span class="gallery-item-overlay" aria-hidden="true"><i class="fa-solid fa-expand"></i></span>
                     </button>
 
                     <button class="gallery-item" type="button" data-image="assets/images/gallery-cornrows.jpg" aria-label="Preview cornrows gallery image">
-                        <img src="assets/images/gallery-cornrows.jpg" alt="Cornrows gallery style" loading="lazy" decoding="async" />
+                        <img src="assets/images/gallery-cornrows.jpg" alt="Cornrows gallery style" loading="lazy" decoding="async" width="600" height="600" />
+                        <span class="gallery-item-overlay" aria-hidden="true"><i class="fa-solid fa-expand"></i></span>
                     </button>
 
                     <button class="gallery-item" type="button" data-image="assets/images/gallery-stitch-braids.jpg" aria-label="Preview stitch braids gallery image">
-                        <img src="assets/images/gallery-stitch-braids.jpg" alt="Stitch braids gallery style" loading="lazy" decoding="async" />
+                        <img src="assets/images/gallery-stitch-braids.jpg" alt="Stitch braids gallery style" loading="lazy" decoding="async" width="600" height="600" />
+                        <span class="gallery-item-overlay" aria-hidden="true"><i class="fa-solid fa-expand"></i></span>
                     </button>
 
                     <button class="gallery-item" type="button" data-image="assets/images/gallery-passion-twists.jpg" aria-label="Preview passion twists gallery image">
-                        <img src="assets/images/gallery-passion-twists.jpg" alt="Passion twists gallery style" loading="lazy" decoding="async" />
+                        <img src="assets/images/gallery-passion-twists.jpg" alt="Passion twists gallery style" loading="lazy" decoding="async" width="600" height="600" />
+                        <span class="gallery-item-overlay" aria-hidden="true"><i class="fa-solid fa-expand"></i></span>
                     </button>
 
                     <button class="gallery-item" type="button" data-image="assets/images/gallery-goddess-braids.jpg" aria-label="Preview goddess braids gallery image">
-                        <img src="assets/images/gallery-goddess-braids.jpg" alt="Goddess braids gallery style" loading="lazy" decoding="async" />
+                        <img src="assets/images/gallery-goddess-braids.jpg" alt="Goddess braids gallery style" loading="lazy" decoding="async" width="600" height="600" />
+                        <span class="gallery-item-overlay" aria-hidden="true"><i class="fa-solid fa-expand"></i></span>
                     </button>
 
                     <button class="gallery-item" type="button" data-image="assets/images/gallery-kids-braids.jpg" aria-label="Preview kids braids gallery image">
-                        <img src="assets/images/gallery-kids-braids.jpg" alt="Kids braids gallery style" loading="lazy" decoding="async" />
+                        <img src="assets/images/gallery-kids-braids.jpg" alt="Kids braids gallery style" loading="lazy" decoding="async" width="600" height="600" />
+                        <span class="gallery-item-overlay" aria-hidden="true"><i class="fa-solid fa-expand"></i></span>
                     </button>
 
                     <button class="gallery-item" type="button" data-image="assets/images/gallery-men-cornrows.jpg" aria-label="Preview men's cornrows gallery image">
-                        <img src="assets/images/gallery-men-cornrows.jpg" alt="Men's cornrows gallery style" loading="lazy" decoding="async" />
+                        <img src="assets/images/gallery-men-cornrows.jpg" alt="Men's cornrows gallery style" loading="lazy" decoding="async" width="600" height="600" />
+                        <span class="gallery-item-overlay" aria-hidden="true"><i class="fa-solid fa-expand"></i></span>
                     </button>
 
                 </div>
@@ -353,51 +390,63 @@
         </section>
 
         <!-- Why Choose Us Section -->
-        <section class="section why-section" id="why-us">
+        <section class="section why-section" id="why-us" aria-labelledby="why-heading">
             <div class="container">
 
-                <div class="section-header">
+                <header class="section-header">
                     <span class="section-kicker">Why Choose Us</span>
-                    <h2>Designed Around Comfort, Beauty, and Trust</h2>
+                    <h2 id="why-heading">Designed Around Comfort, Beauty, and Trust</h2>
                     <p>
                         We make the booking and styling experience simple, clean, and reliable.
                     </p>
-                </div>
+                </header>
 
                 <div class="why-grid">
 
                     <article class="why-card">
-                        <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+                        <div class="why-card-icon">
+                            <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+                        </div>
                         <h3>Same-Day Booking</h3>
                         <p>Appointments may be available on the same day depending on schedule.</p>
                     </article>
 
                     <article class="why-card">
-                        <i class="fa-solid fa-house-user" aria-hidden="true"></i>
+                        <div class="why-card-icon">
+                            <i class="fa-solid fa-house-user" aria-hidden="true"></i>
+                        </div>
                         <h3>Home Service Available</h3>
                         <p>Book salon service or request home service within the service area.</p>
                     </article>
 
                     <article class="why-card">
-                        <i class="fa-solid fa-child-reaching" aria-hidden="true"></i>
+                        <div class="why-card-icon">
+                            <i class="fa-solid fa-child-reaching" aria-hidden="true"></i>
+                        </div>
                         <h3>Kids Friendly</h3>
                         <p>Gentle and comfortable braiding services for children.</p>
                     </article>
 
                     <article class="why-card">
-                        <i class="fa-solid fa-star" aria-hidden="true"></i>
+                        <div class="why-card-icon">
+                            <i class="fa-solid fa-star" aria-hidden="true"></i>
+                        </div>
                         <h3>Experienced Stylist</h3>
                         <p>Professional styling with attention to neatness, detail, and finish.</p>
                     </article>
 
                     <article class="why-card">
-                        <i class="fa-solid fa-spa" aria-hidden="true"></i>
+                        <div class="why-card-icon">
+                            <i class="fa-solid fa-spa" aria-hidden="true"></i>
+                        </div>
                         <h3>Clean Environment</h3>
                         <p>A comfortable and clean appointment experience for every client.</p>
                     </article>
 
                     <article class="why-card">
-                        <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                        <div class="why-card-icon">
+                            <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                        </div>
                         <h3>Springfield, MA</h3>
                         <p>Serving clients in Springfield and surrounding Massachusetts areas.</p>
                     </article>
@@ -407,16 +456,16 @@
         </section>
 
         <!-- Testimonials Section -->
-        <section class="section testimonials-section" id="testimonials">
+        <section class="section testimonials-section" id="testimonials" aria-labelledby="testimonials-heading">
             <div class="container">
 
-                <div class="section-header">
+                <header class="section-header">
                     <span class="section-kicker">Testimonials</span>
-                    <h2>What Clients Say</h2>
+                    <h2 id="testimonials-heading">What Clients Say</h2>
                     <p>
                         Client reviews can be updated once real testimonials are available.
                     </p>
-                </div>
+                </header>
 
                 <div class="testimonials-grid">
 
@@ -428,11 +477,13 @@
                             <i class="fa-solid fa-star" aria-hidden="true"></i>
                             <i class="fa-solid fa-star" aria-hidden="true"></i>
                         </div>
-                        <p>
-                            “Very neat braids and excellent service. The stylist was professional,
-                            patient, and made sure I was comfortable throughout the appointment.”
-                        </p>
-                        <h3>Happy Client</h3>
+                        <blockquote>
+                            <p>
+                                “Very neat braids and excellent service. The stylist was professional,
+                                patient, and made sure I was comfortable throughout the appointment.”
+                            </p>
+                        </blockquote>
+                        <cite>Happy Client</cite>
                     </article>
 
                     <article class="testimonial-card">
@@ -443,11 +494,13 @@
                             <i class="fa-solid fa-star" aria-hidden="true"></i>
                             <i class="fa-solid fa-star" aria-hidden="true"></i>
                         </div>
-                        <p>
-                            “My daughter loved her braids. The service was clean, friendly,
-                            and perfect for kids.”
-                        </p>
-                        <h3>Parent Client</h3>
+                        <blockquote>
+                            <p>
+                                “My daughter loved her braids. The service was clean, friendly,
+                                and perfect for kids.”
+                            </p>
+                        </blockquote>
+                        <cite>Parent Client</cite>
                     </article>
 
                     <article class="testimonial-card">
@@ -458,11 +511,13 @@
                             <i class="fa-solid fa-star" aria-hidden="true"></i>
                             <i class="fa-solid fa-star" aria-hidden="true"></i>
                         </div>
-                        <p>
-                            “Beautiful work and very detailed styling. I highly recommend
-                            Faith African Hair Braiding.”
-                        </p>
-                        <h3>Regular Client</h3>
+                        <blockquote>
+                            <p>
+                                “Beautiful work and very detailed styling. I highly recommend
+                                Faith African Hair Braiding.”
+                            </p>
+                        </blockquote>
+                        <cite>Regular Client</cite>
                     </article>
 
                 </div>
@@ -470,13 +525,13 @@
         </section>
 
         <!-- Booking Section -->
-        <section class="section booking-section" id="booking">
+        <section class="section booking-section" id="booking" aria-labelledby="booking-heading">
             <div class="container booking-grid">
 
                 <div class="booking-content">
                     <span class="section-kicker">Book Appointment</span>
 
-                    <h2>Ready for Your Next Beautiful Style?</h2>
+                    <h2 id="booking-heading">Ready for Your Next Beautiful Style?</h2>
 
                     <p>
                         Send your appointment request through the form, WhatsApp, or phone call.
@@ -487,24 +542,30 @@
                     <div class="booking-options">
 
                         <a href="https://wa.me/14132443858" class="booking-option" target="_blank" rel="noopener">
-                            <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
-                            <span>
+                            <span class="booking-option-icon">
+                                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                            </span>
+                            <span class="booking-option-text">
                                 <strong>WhatsApp</strong>
                                 +1 (413) 244 3858
                             </span>
                         </a>
 
                         <a href="tel:+14132443858" class="booking-option">
-                            <i class="fa-solid fa-phone" aria-hidden="true"></i>
-                            <span>
+                            <span class="booking-option-icon">
+                                <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                            </span>
+                            <span class="booking-option-text">
                                 <strong>Call Now</strong>
                                 +1 (413) 244 3858
                             </span>
                         </a>
 
                         <a href="mailto:josephinenicodemus05@gmail.com" class="booking-option">
-                            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-                            <span>
+                            <span class="booking-option-icon">
+                                <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                            </span>
+                            <span class="booking-option-text">
                                 <strong>Email</strong>
                                 josephinenicodemus05@gmail.com
                             </span>
@@ -513,17 +574,17 @@
                     </div>
                 </div>
 
-                <form class="booking-form" id="bookingForm" data-whatsapp="14132443858">
+                <form class="booking-form" id="bookingForm" data-whatsapp="14132443858" novalidate>
                     <h3>Appointment Request</h3>
 
                     <div class="form-group">
                         <label for="fullName">Full Name</label>
-                        <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required />
+                        <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" autocomplete="name" required />
                     </div>
 
                     <div class="form-group">
                         <label for="phoneNumber">Phone Number</label>
-                        <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Enter your phone number" required />
+                        <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Enter your phone number" autocomplete="tel" required />
                     </div>
 
                     <div class="form-group">
@@ -588,52 +649,55 @@
         </section>
 
         <!-- Contact Section -->
-        <section class="section contact-section" id="contact">
+        <section class="section contact-section" id="contact" aria-labelledby="contact-heading">
             <div class="container">
 
-                <div class="section-header">
+                <header class="section-header">
                     <span class="section-kicker">Contact Us</span>
-                    <h2>Visit or Book Your Appointment</h2>
+                    <h2 id="contact-heading">Visit or Book Your Appointment</h2>
                     <p>
                         Serving Springfield, Massachusetts and nearby areas.
                     </p>
-                </div>
+                </header>
 
                 <div class="contact-grid">
 
-                    <div class="contact-card">
-                        <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                    <a href="tel:+14132443858" class="contact-card">
+                        <span class="contact-card-icon">
+                            <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                        </span>
                         <h3>Phone</h3>
-                        <a href="tel:+14132443858">+1 (413) 244 3858</a>
-                    </div>
+                        <span class="contact-card-link">+1 (413) 244 3858</span>
+                    </a>
 
-                    <div class="contact-card">
-                        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                    <a href="https://wa.me/14132443858" class="contact-card" target="_blank" rel="noopener">
+                        <span class="contact-card-icon">
+                            <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                        </span>
                         <h3>WhatsApp</h3>
-                        <a href="https://wa.me/14132443858" target="_blank" rel="noopener">
-                            Message on WhatsApp
-                        </a>
-                    </div>
+                        <span class="contact-card-link">Message on WhatsApp</span>
+                    </a>
 
-                    <div class="contact-card">
-                        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                    <a href="mailto:josephinenicodemus05@gmail.com" class="contact-card">
+                        <span class="contact-card-icon">
+                            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                        </span>
                         <h3>Email</h3>
-                        <a href="mailto:josephinenicodemus05@gmail.com">
-                            josephinenicodemus05@gmail.com
-                        </a>
-                    </div>
+                        <span class="contact-card-link">josephinenicodemus05@gmail.com</span>
+                    </a>
 
-                    <div class="contact-card">
-                        <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                    <a
+                        href="https://www.google.com/maps/search/?api=1&query=Springfield%2C%20Massachusetts"
+                        class="contact-card"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        <span class="contact-card-icon">
+                            <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                        </span>
                         <h3>Location</h3>
-                        <a
-                            href="https://www.google.com/maps/search/?api=1&query=Springfield%2C%20Massachusetts"
-                            target="_blank"
-                            rel="noopener"
-                        >
-                            Springfield, Massachusetts
-                        </a>
-                    </div>
+                        <span class="contact-card-link">Springfield, Massachusetts</span>
+                    </a>
 
                 </div>
 
@@ -657,7 +721,7 @@
     </main>
 
     <!-- Image Lightbox -->
-    <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image preview" aria-hidden="true">
         <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Close image preview">
             <i class="fa-solid fa-xmark" aria-hidden="true"></i>
         </button>
@@ -707,8 +771,8 @@
 
             <div class="footer-column footer-about">
                 <a href="#home" class="footer-logo" aria-label="Faith African Hair Braiding Home">
-                    <span class="footer-logo-mark">F</span>
-                    <span>
+                    <span class="footer-logo-mark" aria-hidden="true">F</span>
+                    <span class="footer-logo-text">
                         <strong>Faith African</strong>
                         <small>Hair Braiding</small>
                     </span>
@@ -730,10 +794,10 @@
                 <h3>Explore</h3>
                 <ul class="footer-list">
                     <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About Faith</a></li>
+                    <li><a href="#about">About</a></li>
                     <li><a href="#services">Services</a></li>
                     <li><a href="#gallery">Gallery</a></li>
-                    <li><a href="#booking">Book Appointment</a></li>
+                    <li><a href="#booking">Booking</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </div>
@@ -746,7 +810,6 @@
                     <li><a href="#booking">Cornrows</a></li>
                     <li><a href="#booking">Stitch Braids</a></li>
                     <li><a href="#booking">Passion Twists</a></li>
-                    <li><a href="#booking">Kids Braids</a></li>
                 </ul>
             </div>
 
@@ -785,19 +848,19 @@
         </div>
 
         <div class="container footer-hours-strip">
-            <div>
+            <div class="footer-hours-item">
                 <span>Monday - Saturday</span>
                 <strong>9:00 AM - 7:00 PM</strong>
             </div>
 
-            <div>
+            <div class="footer-hours-item">
                 <span>Sunday</span>
                 <strong>By appointment only</strong>
             </div>
 
-            <div>
+            <div class="footer-hours-item">
                 <span>Service Area</span>
-                <strong>Springfield & nearby MA areas</strong>
+                <strong>Springfield &amp; nearby MA areas</strong>
             </div>
         </div>
 
