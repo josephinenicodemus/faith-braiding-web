@@ -1,152 +1,185 @@
-/* =========================================================
-   Faith African Hair Braiding
-   Main JavaScript
-========================================================= */
+/**
+ * Faith African Hair Braiding — Main JavaScript
+ * Handles navigation, lightbox, booking form, and UI interactions.
+ */
+(function () {
+    "use strict";
 
-document.addEventListener("DOMContentLoaded", () => {
-    const body = document.body;
-    const header = document.getElementById("siteHeader");
-    const menuToggle = document.getElementById("menuToggle");
-    const mainNav = document.getElementById("mainNav");
-    const navLinks = document.querySelectorAll(".nav-link");
-    const bookingForm = document.getElementById("bookingForm");
-    const currentYear = document.getElementById("currentYear");
+    /* ------------------------------------------------------------------
+       DOM References
+       ------------------------------------------------------------------ */
+    var siteHeader = document.getElementById("siteHeader");
+    var menuToggle = document.getElementById("menuToggle");
+    var mainNav = document.getElementById("mainNav");
+    var bookingForm = document.getElementById("bookingForm");
+    var lightbox = document.getElementById("lightbox");
+    var lightboxImage = document.getElementById("lightboxImage");
+    var lightboxClose = document.getElementById("lightboxClose");
+    var currentYearEl = document.getElementById("currentYear");
 
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImage = document.getElementById("lightboxImage");
-    const lightboxClose = document.getElementById("lightboxClose");
-    const galleryItems = document.querySelectorAll(".gallery-item");
+    var navLinks = mainNav ? mainNav.querySelectorAll(".nav-link") : [];
+    var galleryItems = document.querySelectorAll(".gallery-item");
+    var sectionIds = ["home", "about", "services", "gallery", "why-us", "testimonials", "booking", "contact"];
 
-    /* -----------------------------
-       Current Year
-    ----------------------------- */
-    if (currentYear) {
-        currentYear.textContent = new Date().getFullYear();
+    var lastFocusedElement = null;
+
+    /* ------------------------------------------------------------------
+       Utility Helpers
+       ------------------------------------------------------------------ */
+    function getHeaderOffset() {
+        return siteHeader ? siteHeader.offsetHeight : 0;
     }
 
-    /* -----------------------------
-       Header Scroll State
-    ----------------------------- */
-    const updateHeaderState = () => {
-        if (!header) return;
+    function setBodyScrollLocked(locked) {
+        document.body.style.overflow = locked ? "hidden" : "";
+    }
 
-        if (window.scrollY > 20) {
-            header.classList.add("is-scrolled");
-        } else {
-            header.classList.remove("is-scrolled");
-        }
-    };
+    /* ------------------------------------------------------------------
+       Current Year
+       ------------------------------------------------------------------ */
+    if (currentYearEl) {
+        currentYearEl.textContent = String(new Date().getFullYear());
+    }
 
-    updateHeaderState();
-    window.addEventListener("scroll", updateHeaderState, { passive: true });
+    /* ------------------------------------------------------------------
+       Mobile Menu
+       ------------------------------------------------------------------ */
+    function openMenu() {
+        if (!mainNav || !menuToggle) return;
 
-    /* -----------------------------
-       Mobile Navigation
-    ----------------------------- */
-    const openMenu = () => {
-        body.classList.add("nav-open");
+        mainNav.classList.add("is-open");
+        menuToggle.classList.add("is-active");
+        menuToggle.setAttribute("aria-expanded", "true");
+        menuToggle.setAttribute("aria-label", "Close menu");
+        setBodyScrollLocked(true);
+    }
 
-        if (menuToggle) {
-            menuToggle.setAttribute("aria-expanded", "true");
-            menuToggle.setAttribute("aria-label", "Close menu");
-        }
-    };
+    function closeMenu() {
+        if (!mainNav || !menuToggle) return;
 
-    const closeMenu = () => {
-        body.classList.remove("nav-open");
+        mainNav.classList.remove("is-open");
+        menuToggle.classList.remove("is-active");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "Open menu");
+        setBodyScrollLocked(false);
+    }
 
-        if (menuToggle) {
-            menuToggle.setAttribute("aria-expanded", "false");
-            menuToggle.setAttribute("aria-label", "Open menu");
-        }
-    };
-
-    const toggleMenu = () => {
-        if (body.classList.contains("nav-open")) {
+    function toggleMenu() {
+        if (mainNav && mainNav.classList.contains("is-open")) {
             closeMenu();
         } else {
             openMenu();
         }
-    };
-
-    if (menuToggle) {
-        menuToggle.addEventListener("click", toggleMenu);
     }
 
-    navLinks.forEach((link) => {
-        link.addEventListener("click", () => {
+    if (menuToggle) {
+        menuToggle.addEventListener("click", function (event) {
+            event.stopPropagation();
+            toggleMenu();
+        });
+    }
+
+    /* Close menu when a nav link is clicked */
+    navLinks.forEach(function (link) {
+        link.addEventListener("click", function () {
             closeMenu();
         });
     });
 
-    document.addEventListener("click", (event) => {
-        const clickedInsideNav = mainNav && mainNav.contains(event.target);
-        const clickedMenuButton = menuToggle && menuToggle.contains(event.target);
+    /* Close menu when clicking outside */
+    document.addEventListener("click", function (event) {
+        if (!mainNav || !menuToggle) return;
 
-        if (!clickedInsideNav && !clickedMenuButton && body.classList.contains("nav-open")) {
+        var isOpen = mainNav.classList.contains("is-open");
+        var clickedInsideNav = mainNav.contains(event.target);
+        var clickedToggle = menuToggle.contains(event.target);
+
+        if (isOpen && !clickedInsideNav && !clickedToggle) {
             closeMenu();
         }
     });
 
-    document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") {
-            closeMenu();
-            closeLightbox();
+    /* ------------------------------------------------------------------
+       Sticky Header & Active Nav on Scroll
+       ------------------------------------------------------------------ */
+    function updateHeaderState() {
+        if (siteHeader) {
+            if (window.scrollY > 10) {
+                siteHeader.classList.add("is-scrolled");
+            } else {
+                siteHeader.classList.remove("is-scrolled");
+            }
         }
-    });
+    }
 
-    window.addEventListener("resize", () => {
-        if (window.innerWidth >= 920) {
-            closeMenu();
-        }
-    });
-
-    /* -----------------------------
-       Active Navigation on Scroll
-    ----------------------------- */
-    const sections = Array.from(document.querySelectorAll("main section[id]"));
-
-    const setActiveLink = (sectionId) => {
-        navLinks.forEach((link) => {
-            const href = link.getAttribute("href");
-
-            if (href === `#${sectionId}`) {
+    function setActiveNavLink(id) {
+        navLinks.forEach(function (link) {
+            var href = link.getAttribute("href");
+            if (href === "#" + id) {
                 link.classList.add("active");
             } else {
                 link.classList.remove("active");
             }
         });
-    };
-
-    if ("IntersectionObserver" in window && sections.length > 0) {
-        const observerOptions = {
-            root: null,
-            threshold: 0.28,
-            rootMargin: "-80px 0px -45% 0px"
-        };
-
-        const sectionObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    setActiveLink(entry.target.id);
-                }
-            });
-        }, observerOptions);
-
-        sections.forEach((section) => sectionObserver.observe(section));
     }
 
-    /* -----------------------------
+    function updateActiveSection() {
+        var scrollPos = window.scrollY + getHeaderOffset() + 80;
+        var activeId = "home";
+
+        sectionIds.forEach(function (id) {
+            var section = document.getElementById(id);
+            if (section && section.offsetTop <= scrollPos) {
+                activeId = id;
+            }
+        });
+
+        setActiveNavLink(activeId);
+    }
+
+    function onScroll() {
+        updateHeaderState();
+        updateActiveSection();
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    /* Smooth scroll for anchor links */
+    document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+        anchor.addEventListener("click", function (event) {
+            var targetId = anchor.getAttribute("href");
+
+            if (!targetId || targetId === "#") return;
+
+            var target = document.querySelector(targetId);
+            if (!target) return;
+
+            event.preventDefault();
+
+            var offsetTop = target.getBoundingClientRect().top + window.scrollY - getHeaderOffset() + 1;
+
+            window.scrollTo({
+                top: offsetTop,
+                behavior: "smooth"
+            });
+        });
+    });
+
+    /* ------------------------------------------------------------------
        Gallery Lightbox
-    ----------------------------- */
-    function openLightbox(imageSource, imageAlt) {
+       ------------------------------------------------------------------ */
+    function openLightbox(imageSrc, imageAlt) {
         if (!lightbox || !lightboxImage) return;
 
-        lightboxImage.src = imageSource;
+        lastFocusedElement = document.activeElement;
+
+        lightboxImage.src = imageSrc;
         lightboxImage.alt = imageAlt || "Braiding style preview";
+
         lightbox.classList.add("is-open");
         lightbox.setAttribute("aria-hidden", "false");
-        body.style.overflow = "hidden";
+        setBodyScrollLocked(true);
 
         if (lightboxClose) {
             lightboxClose.focus();
@@ -159,17 +192,24 @@ document.addEventListener("DOMContentLoaded", () => {
         lightbox.classList.remove("is-open");
         lightbox.setAttribute("aria-hidden", "true");
         lightboxImage.src = "";
-        body.style.overflow = body.classList.contains("nav-open") ? "hidden" : "";
+
+        if (!mainNav || !mainNav.classList.contains("is-open")) {
+            setBodyScrollLocked(false);
+        }
+
+        if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+            lastFocusedElement.focus();
+        }
     }
 
-    galleryItems.forEach((item) => {
-        item.addEventListener("click", () => {
-            const imageSource = item.getAttribute("data-image");
-            const image = item.querySelector("img");
-            const imageAlt = image ? image.getAttribute("alt") : "Braiding style preview";
+    galleryItems.forEach(function (item) {
+        item.addEventListener("click", function () {
+            var imageSrc = item.getAttribute("data-image");
+            var img = item.querySelector("img");
+            var imageAlt = img ? img.getAttribute("alt") : "";
 
-            if (imageSource) {
-                openLightbox(imageSource, imageAlt);
+            if (imageSrc) {
+                openLightbox(imageSrc, imageAlt);
             }
         });
     });
@@ -179,64 +219,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (lightbox) {
-        lightbox.addEventListener("click", (event) => {
+        lightbox.addEventListener("click", function (event) {
             if (event.target === lightbox) {
                 closeLightbox();
             }
         });
     }
 
-    /* -----------------------------
-       Booking Form Date Restriction
-    ----------------------------- */
-    const preferredDateInput = document.getElementById("preferredDate");
-
-    if (preferredDateInput) {
-        const today = new Date();
-        const yyyy = today.getFullYear();
-        const mm = String(today.getMonth() + 1).padStart(2, "0");
-        const dd = String(today.getDate()).padStart(2, "0");
-
-        preferredDateInput.min = `${yyyy}-${mm}-${dd}`;
-    }
-
-    /* -----------------------------
-       WhatsApp Booking Form
-    ----------------------------- */
-    const sanitizeValue = (value) => {
-        return String(value || "").trim();
-    };
-
-    const buildWhatsAppMessage = (form) => {
-        const formData = new FormData(form);
-
-        const fullName = sanitizeValue(formData.get("fullName"));
-        const phoneNumber = sanitizeValue(formData.get("phoneNumber"));
-        const service = sanitizeValue(formData.get("service"));
-        const preferredDate = sanitizeValue(formData.get("preferredDate"));
-        const preferredTime = sanitizeValue(formData.get("preferredTime"));
-        const serviceType = sanitizeValue(formData.get("serviceType"));
-        const message = sanitizeValue(formData.get("message"));
-
-        return [
-            "Hello Faith African Hair Braiding,",
-            "",
-            "I would like to request an appointment.",
-            "",
-            `Full Name: ${fullName}`,
-            `Phone Number: ${phoneNumber}`,
-            `Preferred Service: ${service}`,
-            `Preferred Date: ${preferredDate}`,
-            `Preferred Time: ${preferredTime}`,
-            `Appointment Type: ${serviceType}`,
-            `Additional Message: ${message || "N/A"}`,
-            "",
-            "Please confirm availability. Thank you."
-        ].join("\n");
-    };
-
+    /* ------------------------------------------------------------------
+       Booking Form — WhatsApp Submission
+       ------------------------------------------------------------------ */
     if (bookingForm) {
-        bookingForm.addEventListener("submit", (event) => {
+        bookingForm.addEventListener("submit", function (event) {
             event.preventDefault();
 
             if (!bookingForm.checkValidity()) {
@@ -244,38 +238,102 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            const whatsappNumber = bookingForm.getAttribute("data-whatsapp") || "14132443858";
-            const message = buildWhatsAppMessage(bookingForm);
-            const encodedMessage = encodeURIComponent(message);
-            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+            var whatsappNumber = bookingForm.getAttribute("data-whatsapp") || "14132443858";
 
-            window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+            var fullName = getFieldValue("fullName");
+            var phoneNumber = getFieldValue("phoneNumber");
+            var service = getFieldValue("service");
+            var preferredDate = getFieldValue("preferredDate");
+            var preferredTime = getFieldValue("preferredTime");
+            var serviceType = getFieldValue("serviceType");
+            var message = getFieldValue("message");
+
+            var lines = [
+                "Hello Faith African Hair Braiding,",
+                "",
+                "I would like to book an appointment.",
+                "",
+                "Name: " + fullName,
+                "Phone: " + phoneNumber,
+                "Service: " + service,
+                "Date: " + formatDate(preferredDate),
+                "Time: " + formatTime(preferredTime),
+                "Appointment Type: " + serviceType
+            ];
+
+            if (message) {
+                lines.push("");
+                lines.push("Additional Message:");
+                lines.push(message);
+            }
+
+            var whatsappMessage = encodeURIComponent(lines.join("\n"));
+            var whatsappUrl = "https://wa.me/" + whatsappNumber + "?text=" + whatsappMessage;
+
+            window.open(whatsappUrl, "_blank", "noopener");
         });
     }
 
-    /* -----------------------------
-       Smooth Anchor Fallback
-    ----------------------------- */
-    const anchorLinks = document.querySelectorAll('a[href^="#"]');
+    function getFieldValue(name) {
+        var field = bookingForm ? bookingForm.elements[name] : null;
+        return field ? String(field.value).trim() : "";
+    }
 
-    anchorLinks.forEach((anchor) => {
-        anchor.addEventListener("click", (event) => {
-            const targetId = anchor.getAttribute("href");
+    function formatDate(dateStr) {
+        if (!dateStr) return "";
+        try {
+            var parts = dateStr.split("-");
+            if (parts.length === 3) {
+                return parts[1] + "/" + parts[2] + "/" + parts[0];
+            }
+        } catch (e) {
+            /* fall through */
+        }
+        return dateStr;
+    }
 
-            if (!targetId || targetId === "#") return;
+    function formatTime(timeStr) {
+        if (!timeStr) return "";
+        try {
+            var parts = timeStr.split(":");
+            var hours = parseInt(parts[0], 10);
+            var minutes = parts[1] || "00";
+            var period = hours >= 12 ? "PM" : "AM";
+            var displayHours = hours % 12 || 12;
+            return displayHours + ":" + minutes + " " + period;
+        } catch (e) {
+            /* fall through */
+        }
+        return timeStr;
+    }
 
-            const targetElement = document.querySelector(targetId);
+    /* Set minimum date to today */
+    var preferredDateField = document.getElementById("preferredDate");
+    if (preferredDateField) {
+        var today = new Date();
+        var yyyy = today.getFullYear();
+        var mm = String(today.getMonth() + 1).padStart(2, "0");
+        var dd = String(today.getDate()).padStart(2, "0");
+        preferredDateField.setAttribute("min", yyyy + "-" + mm + "-" + dd);
+    }
 
-            if (!targetElement) return;
+    /* ------------------------------------------------------------------
+       Keyboard — ESC closes menu & lightbox
+       ------------------------------------------------------------------ */
+    document.addEventListener("keydown", function (event) {
+        if (event.key !== "Escape") return;
 
-            event.preventDefault();
+        if (lightbox && lightbox.classList.contains("is-open")) {
+            closeLightbox();
+            return;
+        }
 
-            targetElement.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
-
+        if (mainNav && mainNav.classList.contains("is-open")) {
             closeMenu();
-        });
+            if (menuToggle) {
+                menuToggle.focus();
+            }
+        }
     });
-});
+
+})();
