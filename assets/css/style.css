@@ -548,7 +548,6 @@ body.nav-open .menu-toggle span:nth-child(3) {
     overflow: hidden;
 }
 
-/* Image is normal-flow on mobile so text cannot overlap it */
 .hero-media {
     position: relative;
     z-index: 0;
@@ -562,11 +561,6 @@ body.nav-open .menu-toggle span:nth-child(3) {
     width: 100%;
     height: 100%;
     object-fit: cover;
-
-    /*
-       Your hero image places the model on the right.
-       This keeps the face visible on mobile without forcing text over it.
-    */
     object-position: 68% center;
 }
 
@@ -574,7 +568,6 @@ body.nav-open .menu-toggle span:nth-child(3) {
     display: none;
 }
 
-/* Content below image on mobile */
 .hero-content {
     position: relative;
     z-index: 2;
@@ -625,7 +618,6 @@ body.nav-open .menu-toggle span:nth-child(3) {
     max-width: 560px;
 }
 
-/* Supports both your current HTML .hero-trust > div and alternate .hero-trust-item */
 .hero-trust > div,
 .hero-trust-item {
     display: flex;
@@ -768,7 +760,6 @@ body.nav-open .menu-toggle span:nth-child(3) {
     aspect-ratio: 3 / 2;
 }
 
-/* Supports both direct images and wrapped images */
 .service-card > img,
 .service-card-media img {
     width: 100%;
@@ -1911,5 +1902,99 @@ body.nav-open .menu-toggle span:nth-child(3) {
     .service-card:hover .service-card-media img,
     .gallery-item:hover img {
         transform: none;
+    }
+}
+
+/* ==========================================================================
+   Mobile Header Visibility Fix
+   Added only to keep header visible on mobile without changing layout sections
+   ========================================================================== */
+
+.site-header {
+    z-index: 3000;
+    width: 100%;
+    height: calc(var(--header-height) + env(safe-area-inset-top));
+    min-height: calc(var(--header-height) + env(safe-area-inset-top));
+    padding-top: env(safe-area-inset-top);
+    background-color: var(--color-cream);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+}
+
+.header-wrapper {
+    height: var(--header-height);
+    min-height: var(--header-height);
+}
+
+/* Hero remains below the fixed mobile header */
+.hero-section {
+    padding-top: calc(var(--header-height) + env(safe-area-inset-top));
+}
+
+/* Keep brand readable on mobile */
+.brand {
+    min-width: 0;
+}
+
+.brand-mark {
+    flex: 0 0 38px;
+}
+
+.brand-text {
+    min-width: 0;
+}
+
+.brand-text strong,
+.brand-text small {
+    white-space: nowrap;
+}
+
+/* Keep menu button above everything */
+.menu-toggle {
+    position: relative;
+    z-index: 3100;
+    flex: 0 0 44px;
+    background-color: var(--color-cream);
+}
+
+/* Mobile nav starts below visible header */
+@media (max-width: 991px) {
+    .main-nav {
+        top: calc(var(--header-height) + env(safe-area-inset-top));
+        z-index: 2999;
+        background-color: var(--color-cream);
+    }
+
+    .main-nav.is-open,
+    body.nav-open .main-nav {
+        display: flex;
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0);
+    }
+
+    .header-cta {
+        display: none;
+    }
+}
+
+/* Extra small mobile protection */
+@media (max-width: 420px) {
+    .brand-text strong {
+        font-size: 0.85rem;
+    }
+
+    .brand-text small {
+        font-size: 0.62rem;
+    }
+
+    .brand-mark {
+        width: 36px;
+        height: 36px;
+        flex-basis: 36px;
+    }
+
+    .header-wrapper {
+        gap: 0.75rem;
     }
 }
